@@ -27,7 +27,7 @@ router.route("/password/forgot").post(requestPasswordRequest);
 
 router.route("/reset/:token").post(resetPassword);
 
-router.route("/profile").post(verifyUserAuth, getUserDetails);
+router.route("/profile").get(verifyUserAuth, getUserDetails);
 
 router.route("/password/update").post(verifyUserAuth, updatePassword);
 

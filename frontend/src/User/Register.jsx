@@ -75,7 +75,7 @@ function Register() {
         autoClose: 3000,
       });
       dispatch(removeSuccess());
-      navigate("/login");
+      navigate("/");
     }
   }, [dispatch, success]);
 
@@ -128,7 +128,9 @@ function Register() {
             />
             <img src={avatarPreview} alt="Avatar Preview" className="avatar" />
           </div>
-          <button className="authBtn">Sign Up</button>
+          <button className="authBtn">
+            {loading ? "Signing Up" : "Sign Up"}
+          </button>
           <p className="form-links">
             Already have an account?<Link to="/login">Sign in here</Link>
           </p>
