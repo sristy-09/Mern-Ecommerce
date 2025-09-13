@@ -9,7 +9,6 @@ export const register = createAsyncThunk(
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          withCredentials: true,
         },
       };
       const { data } = await axios.post("/api/v1/register", userData, config);
@@ -31,7 +30,6 @@ export const login = createAsyncThunk(
       const config = {
         headers: {
           "Content-Type": "application/json",
-          withCredentials: true,
         },
       };
       const { data } = await axios.post(
@@ -67,9 +65,7 @@ export const logout = createAsyncThunk(
   "user/logout",
   async (__, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/v1/logout", {
-        withCredentials: true,
-      });
+      const { data } = await axios.post("/api/v1/logout", {});
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Logout failed");
@@ -84,7 +80,6 @@ export const updateProfile = createAsyncThunk(
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          withCredentials: true,
         },
       };
 
@@ -97,6 +92,31 @@ export const updateProfile = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Profile Update failed. Please try again later."
+      );
+    }
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.put(
+        "/api/v1/password/update",
+        formData,
+        config
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data ||
+          "Password Update failed. Please try again later."
       );
     }
   }
@@ -209,6 +229,22 @@ const userSlice = createSlice({
           (state.error =
             action.payload?.message ||
             "Profile Update failed. Please try again later.");
+      });
+
+    // Update Password
+    builder
+      .addCase(updatePassword.pending, (state) => {
+        (state.loading = true), (state.error = null);
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        (state.loading = false), (state.error = null);
+        state.success = action.payload?.success;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        (state.loading = false),
+          (state.error =
+            action.payload?.message ||
+            "Password Update failed. Please try again later.");
       });
   },
 });
