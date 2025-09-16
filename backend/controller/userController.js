@@ -85,7 +85,8 @@ export const requestPasswordRequest = handleAsyncError(
         )
       );
     }
-    const resetPasswordURL = `http://localhost/api/v1/reset/${resetToken}`;
+    const resetPasswordURL = `${process.env.FRONTEND_URL}/reset/${resetToken}`;
+
     const message = `Use the following link to reset your password: ${resetPasswordURL}. \n\n This link will expire in 30 minutes.\n\n If you didn't request a password reset, please ignore this message.`;
 
     try {
