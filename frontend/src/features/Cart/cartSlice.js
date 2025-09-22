@@ -1,3 +1,4 @@
+import { JoinFull } from "@mui/icons-material";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -31,6 +32,7 @@ const cartSlice = createSlice({
     success: false,
     message: null,
     removingId: null,
+    shippingInfo: JSON.parse(localStorage.getItem("shippingInfo")) || {},
   },
   reducers: {
     removeError: (state) => {
@@ -46,6 +48,10 @@ const cartSlice = createSlice({
       );
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       state.removingId = null;
+    },
+    saveShippingInfo: (state, action) => {
+      state.shippingInfo = action.payload;
+      localStorage.setItem("shippingInfo", JSON.stringify(state.shippingInfo));
     },
   },
   extraReducers: (builder) => {
@@ -80,6 +86,10 @@ const cartSlice = createSlice({
   },
 });
 
-export const { removeError, removeMessage, removeItemFromCart } =
-  cartSlice.actions;
+export const {
+  removeError,
+  removeMessage,
+  removeItemFromCart,
+  saveShippingInfo,
+} = cartSlice.actions;
 export default cartSlice.reducer;
