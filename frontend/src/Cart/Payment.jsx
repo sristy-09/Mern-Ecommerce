@@ -8,6 +8,10 @@ import CheckoutPath from "./CheckoutPath";
 function Payment() {
   const orderItem = JSON.parse(sessionStorage.getItem("orderItem"));
 
+  const completePayment = async (amount) => {
+    console.log(amount);
+  };
+
   return (
     <>
       <PageTitle title="Payment Processing" />
@@ -17,7 +21,12 @@ function Payment() {
         <Link to="/order/confirm" className="payment-go-back">
           Go back
         </Link>
-        <button className="payment-btn">Pay ({orderItem.total})/-</button>
+        <button
+          className="payment-btn"
+          onClick={() => completePayment(orderItem.total)}
+        >
+          Pay ({orderItem.total})/-
+        </button>
       </div>
       <Footer />
     </>
